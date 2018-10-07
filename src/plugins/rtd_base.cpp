@@ -5,7 +5,7 @@
 #include "str_tok.h"
 using namespace std;
 
-#define VERSION		"v0.2.5"
+#define VERSION		"v0.2.6"
 
 struct Effect
 {
@@ -337,9 +337,9 @@ int endToxicSmite(hmHandle &handle, string client)
     return 1;
 }
 
-int rocketHook(hmHandle &handle, hmHook hook, smatch args)
+int rocketHook(hmHandle &handle, hmHook hook, rens::smatch args)
 {
-    string killer = args[1], client = args[2];
+    string killer = args[1].str(), client = args[2].str();
     hmSendRaw("effect give " + client + " minecraft:levitation 5 25\ntag " + client + " remove rocket_" + killer);
     handle.createTimer("explode" + client,2700,&delayedExplodeWith,client + " " + killer,MILLISECONDS);
     return 1;

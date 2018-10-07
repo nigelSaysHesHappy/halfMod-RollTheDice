@@ -6,7 +6,7 @@
 #include "nbtmap.h"
 using namespace std;
 
-#define VERSION		"v0.0.7"
+#define VERSION		"v0.0.8"
 
 struct Effect
 {
@@ -118,7 +118,7 @@ int cMaxPerTeam(hmConVar &cvar, string oldVar, string newVar)
 }
 
 int doStartup(hmExtension &handle, string nothing);
-int hasConnected(hmExtension &handle, hmExtHook hook, smatch args);
+int hasConnected(hmExtension &handle, hmExtHook hook, rens::smatch args);
 
 extern "C" int onExtensionLoad(hmExtension &handle, hmGlobal *global)
 {
@@ -244,14 +244,14 @@ int doStartup(hmExtension &handle, string nothing)
     return 1;
 }
 
-int hasConnected(hmExtension &handle, hmExtHook hook, smatch args)
+int hasConnected(hmExtension &handle, hmExtHook hook, rens::smatch args)
 {
     handle.createTimer("load",0,&doStartup);
     handle.unhookPattern(hook.name);
     return 0;
 }
 
-int lookupUUID(hmHandle &handle, hmHook hook, smatch args)
+int lookupUUID(hmHandle &handle, hmHook hook, rens::smatch args)
 {
     handle.unhookPattern(hook.name);
     string client = args[1].str();
@@ -263,7 +263,7 @@ int lookupUUID(hmHandle &handle, hmHook hook, smatch args)
     return 1;
 }
 
-int onPlayerJoin(hmHandle &handle, smatch args)
+int onPlayerJoin(hmHandle &handle, rens::smatch args)
 {
     // make this get player's uuid least/most and store it in player data
     string client = args[1].str();
@@ -286,7 +286,7 @@ int onPlayerJoin(hmHandle &handle, smatch args)
     return 0;
 }
 
-int onPlayerLeave(hmHandle &handle, smatch args)
+int onPlayerLeave(hmHandle &handle, rens::smatch args)
 {
     string client = args[1].str();
     for (auto it = playerStatus.begin(), ite = playerStatus.end();it != ite;++it)
@@ -309,7 +309,7 @@ int onPlayerLeave(hmHandle &handle, smatch args)
     return 0;
 }
 
-int onPlayerDeath(hmHandle &handle, smatch args)
+int onPlayerDeath(hmHandle &handle, rens::smatch args)
 {
     string client = args[1].str();
     auto it = playerStatus.begin(), ite = playerStatus.end();
